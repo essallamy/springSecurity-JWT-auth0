@@ -38,7 +38,7 @@ System.out.println(password);
 UsernamePasswordAuthenticationToken authenticationToken=
                         new UsernamePasswordAuthenticationToken(username,password);
 
-        return authenticationManager.authenticate(authenticationToken);
+        return authenticationManager.authenticate(authenticationToken); // c'est qui va l'appel A UseDetailservice pour recupere les users
     }
 
 
@@ -51,7 +51,7 @@ UsernamePasswordAuthenticationToken authenticationToken=
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis()+1*60*1000))       //5min pour expire
                 .withIssuer(request.getRequestURL().toString())     //nom de l'application qui a generer le token
-                .withClaim("roles",user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
+                .withClaim("roles",user.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList())) //list des roles
                 .sign(algorithm);
 //refresh token pour renouveler le token
         String jwtRefreshToken= JWT.create()
